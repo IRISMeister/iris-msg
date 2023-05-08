@@ -1,0 +1,6 @@
+ROUTINE load 
+
+en()
+ s file="/home/irisowner/resources/msg_en.xml"
+ Do ##class(%Library.MessageDictionary).Import(file)
+ Return

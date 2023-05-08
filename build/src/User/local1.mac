@@ -1,0 +1,38 @@
+ROUTINE local1 
+
+#include %occMessages
+ w "現在のプロセスの言語: "_$$$SessionLanguage,!
+ w "(現在のロケールの)デフォルトの言語: "_$$$DefaultLanguage,!
+ 
+ ; 環境($$$SessionLanguage)に応じたメッセージを自動選択させる場合。
+ ; 日本語環境では"ja"となるので下記のようなメッセージ辞書(グローバル)が作成される。
+ ; 第3ノードの数値は自動生成されたユニーク値(メッセージの32 bit CRC値)。
+ ; IRIS.Msg("sampledomain")="ja"
+ ; ^IRIS.Msg("sampledomain","ja",2346098258)="おはよう"
+ write $$$Text("おはよう","myapp"),!       
+
+ ; 環境に関わらずEnglish(存在すれば)を選択する場合。存在しなければ第1引数の内容がそのまま返却される。
+ write $$$Text("おはよう","myapp","en"),!  
+ 
+ ; 上記とは別メッセージとなるので注意。
+ write $$$Text("おはよう 2","myapp"),!     
+ 
+ ; 既存のメッセージとの結合での表現も考慮する
+ write $$$Text("おはよう","myapp")_" 2",!  
+ 
+ ; メッセージIDはコンパイル時に決定されるので、変数は使えない。コンパイルエラーになる
+ ; set msg="おはよう" write $$$Text(msg,"myapp"),!  
+
+ ; @@で挟むことでメッセージIDを指定することも可能。
+ ; 重複チェックはされず後者が優先されてしまうので、明示的に指定する場合は必ずユニーク値になるように指定すること。
+ ; このアプローチをとる場合Excel等でのIDとメッセージの管理は必須です。
+ write $$$Text("@123@こんにちは","myapp"),!   
+
+ ; メッセージIDは任意の文字列を指定可能。
+ write $$$Text("@HelloMessage3@こんばんは","myapp"),!
+
+ ;"ja"をエクスポート
+ s file="/home/irisowner/msg.xml"
+ Do ##class(%Library.MessageDictionary).ExportDomainList(file,"myapp")
+
+ Return

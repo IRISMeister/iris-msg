@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MsgFile Language="en">
+   <MsgDomain Domain="myapp">
+      <Message Id="123">Hello</Message>
+      <Message Id="1081614813">Good morning</Message>
+      <Message Id="1685425321">Good morning 2</Message>
+      <Message Id="HelloMessage3">Good evening</Message>
+   </MsgDomain>
+</MsgFile>
